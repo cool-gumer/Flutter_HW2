@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:joke/repositories/get_rep.dart';
 import 'package:joke/models/swipe_card.dart';
+import 'package:joke/repositories/joke_repository.dart';
 import 'package:provider/provider.dart';
 import "package:joke/models/counter_jokes.dart";
 import 'package:http/http.dart' as http;
@@ -10,8 +13,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
 import 'package:swipe/swipe.dart';
 import 'package:joke/models/joke_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../models/joke_saved_model.dart';
 
 
 class MyWidget extends StatefulWidget {
@@ -28,15 +33,28 @@ class MyWidgetState extends State<MyWidget> {
 
   Future<void> getJoke() async {
 
-    var response = await http.get(
-        Uri.parse("https://api.chucknorris.io/jokes/random"),
-        headers: {"Accept": "application/json"});
-
+    joke = await  GetJoke(JokeRepositoryAPI()).getJoke();
     setState(() {
-      joke = JokeModel.fromJson(json.decode(response.body));
+
       counterJoke++;
       if (counterJoke%5 == 0 ){
-        showDialog(context: context, builder: (con){return Container(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("Percent of liked jokes ${(100*(counterLike/counterJoke)).toInt()} %")],),);});
+        showDialog(context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Percent of liked jokes ${(100*(counterLike/counterJoke)).toInt()} %"),
+              content: const Text(''),
+              actions: <Widget>[
+                ElevatedButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+        // showDialog(context: context, builder: (con){return S(body: Container(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("Percent of liked jokes ${(100*(counterLike/counterJoke)).toInt()} %")],),));});
       }
     });
   }
@@ -75,8 +93,10 @@ class MyWidgetState extends State<MyWidget> {
                       getJoke();
                     });
                   },
-                  onSwipeRight: () {
+                  onSwipeRight: () async {
+                    await savedLocalJoke();
                     setState(() {
+
                       counterLike++;
                       getJoke();
                     });
@@ -102,9 +122,8 @@ class MyWidgetState extends State<MyWidget> {
                     ),
                     ElevatedButton(
                       child: Text('Yes'),
-                      onPressed:() async {getJoke();counterLike++;
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                        prefs.setString("$counterLike", '${joke.value}');
+                      onPressed:() async { await savedLocalJoke();getJoke();counterLike++;
+
                         } ,
                       //color: Colors.green,
                     ),
@@ -140,6 +159,11 @@ class MyWidgetState extends State<MyWidget> {
     });
     this.getJoke();
   }
+  savedLocalJoke() async {
+    var jokeBox = await Hive.openBox<JokeSaved>('jokeBox');
+    JokeSaved jokeSaved = JokeSaved(joke.id, joke.url, joke.value);
+    jokeBox.add(jokeSaved);
+  }
 }
 
 class Count extends StatelessWidget {
@@ -151,3 +175,4 @@ class Count extends StatelessWidget {
         key: Key('counterState'), style: Theme.of(context).textTheme.headline4);
   }
 }
+

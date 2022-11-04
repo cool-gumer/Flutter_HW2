@@ -1,5 +1,7 @@
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:joke/models/joke_saved_model.dart';
 import 'package:joke/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -10,10 +12,13 @@ import 'models/joke_model.dart';
 import 'package:joke/screens/sec_screen.dart';
 // import 'models/swipe_card.dart';
 import 'package:joke/models/swipe_card.dart';
-
+import 'package:hive_flutter/hive_flutter.dart';
 // import 'models/joke_model.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(JokeSavedAdapter());
+
   runApp(
     MultiProvider(
       providers: [
