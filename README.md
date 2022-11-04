@@ -6,7 +6,7 @@ A new Flutter project according to [F22] Cross-platform Mobile Development with 
 getting data and working with the site of jokes : https://api.chucknorris.io/
 
 ### Functionality 
-  1. Corrections from the first A1.
+  1. Corrections from the first A1.(swipe , json_serialible , e.t.c)
   2. App works for Android
   3. App is stable — no crashes or broken behaviour
   4. Custom app icon
