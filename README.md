@@ -37,5 +37,11 @@ getting data and working with the site of jokes : https://api.chucknorris.io/
 
 ### Results
   .apk installer available and tested
+  
+  
+  
   The case of no Internet is handled in the simplest way: By creating an "empty" instance and a Connection Error message
+  
+  
+  
   every 5 jokes, a window with the percentage of liked jokes will be displayed for the user
