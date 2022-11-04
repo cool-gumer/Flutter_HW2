@@ -45,3 +45,11 @@ getting data and working with the site of jokes : https://api.chucknorris.io/
   
   
   every 5 jokes, a window with the percentage of liked jokes will be displayed for the user
+  
+  
+  
+  
+
+https://user-images.githubusercontent.com/61837092/200060968-53ff49a1-e8b5-406a-800f-ccd457cc3a02.mp4
+
+
