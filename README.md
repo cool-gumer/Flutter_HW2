@@ -19,10 +19,20 @@ getting data and working with the site of jokes : https://api.chucknorris.io/
 ### Project Structure 
 
   UI files separated from logic files so in ../lib you can find:
+  
+  
   -lib:
+  
+  
     -models: (contain files with class JokeModel with this object, work is carried out according to the data read using json_serializable)
+    
+    
     -repositories (store logic files)
+    
+    
     -screens (Home page with functionality and second page for liked jokes with their ID )
+    
+    
     main.dart 
 
 ### Results
