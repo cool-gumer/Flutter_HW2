@@ -2,4 +2,8 @@
 
 How to get app?
 
-The installer for android is available in the directory: build\app\outputs\flutter-apk   app-profile.apk 
+1. You can open my project and run in terminal this line: flutter build apk --profile   
+
+2. The installer for android is available in the directory: build\app\outputs\flutter-apk\app-profile.apk
+
+3. Download it to Android phone -> install -> use!
